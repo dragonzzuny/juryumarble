@@ -1,5 +1,6 @@
 package com.manus.juryumarble.presentation.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -30,6 +31,7 @@ import com.manus.juryumarble.presentation.ui.component.AnimatedMeshBackground
 import com.manus.juryumarble.presentation.ui.component.GlassCard
 import com.manus.juryumarble.presentation.ui.theme.*
 import com.manus.juryumarble.presentation.viewmodel.GameViewModel
+import kotlinx.coroutines.delay
 
 /**
  * GameSetupScreen - Visual Upgrade
@@ -49,7 +51,10 @@ fun GameSetupScreen(
 
     // Navigate when game starts successfully
     LaunchedEffect(uiState.isGameStarted) {
+        Log.d("GameSetupScreen", "isGameStarted changed to: ${uiState.isGameStarted}")
         if (uiState.isGameStarted) {
+            Log.d("GameSetupScreen", "✅ Navigating to game board...")
+            delay(50) // 약간의 딜레이로 UI 안정화
             onStartGame()
         }
     }

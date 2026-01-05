@@ -95,12 +95,11 @@ class GameViewModel @Inject constructor(
             return
         }
 
-        // 간단한 테스트: 무조건 샘플 게임 시작
-        Log.d("GameViewModel", "Starting game with sample data...")
-        startGameWithoutCards()
-
-        /* 나중에 DB 연동 시 사용
+        // Quick Fix: 즉시 게임 시작 상태로 변경
         viewModelScope.launch {
+            Log.d("GameViewModel", "Initializing game with sample data...")
+
+            // SessionConfig 설정
             val config = SessionConfig(
                 playerNames = _uiState.value.players,
                 severityFilter = _uiState.value.selectedSeverity,
@@ -108,27 +107,56 @@ class GameViewModel @Inject constructor(
             )
             sessionConfig = config
 
-            try {
-                gameState = initializeGameUseCase(config)
-                gameState?.let { state ->
-                    _uiState.update {
-                        it.copy(
-                            isGameStarted = true,
-                            currentPlayerIndex = state.currentPlayerIndex,
-                            currentPlayerName = state.currentPlayer.nickname,
-                            playerPositions = state.players.associate { p -> p.id to p.position },
-                            turnPhase = state.turnPhase,
-                            gameStatus = state.status,
-                            players = _uiState.value.players
-                        )
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("GameViewModel", "Error: ${e.message}", e)
-                startGameWithoutCards()
+            // GameState 초기화
+            val players = _uiState.value.players.mapIndexed { index, name ->
+                Player(
+                    id = "player_$index",
+                    nickname = name,
+                    position = 0,
+                    penaltyCount = 0,
+                    consecutivePenalties = 0,
+                    isActive = true
+                )
             }
+
+            val board = createDefaultBoard()
+            val deck = createSampleCards().shuffled()
+
+            gameState = GameState(
+                sessionId = "session_${System.currentTimeMillis()}",
+                randomSeed = System.currentTimeMillis(),
+                players = players,
+                board = board,
+                deck = deck,
+                currentPlayerIndex = 0,
+                currentTurn = 1,
+                turnPhase = TurnPhase.START,
+                status = GameStatus.IN_PROGRESS,
+                direction = GameDirection.CLOCKWISE,
+                startTime = System.currentTimeMillis()
+            )
+
+            Log.d("GameViewModel", "GameState created with ${players.size} players")
+
+            // UI 업데이트를 위한 최소 딜레이
+            delay(100)
+
+            // UI 상태 업데이트
+            _uiState.update {
+                it.copy(
+                    isGameStarted = true,
+                    currentPlayerIndex = 0,
+                    currentPlayerName = players[0].nickname,
+                    playerPositions = players.associate { p -> p.id to p.position },
+                    turnPhase = TurnPhase.START,
+                    gameStatus = GameStatus.IN_PROGRESS,
+                    players = _uiState.value.players
+                )
+            }
+
+            Log.d("GameViewModel", "✅ Game started! isGameStarted: ${_uiState.value.isGameStarted}")
+            Log.d("GameViewModel", "Current player: ${_uiState.value.currentPlayerName}")
         }
-        */
     }
     
     /**
