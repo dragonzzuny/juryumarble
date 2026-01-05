@@ -1,0 +1,35 @@
+[
+  {
+    "cardId": "mild_mission_001",
+    "cardPackId": "default",
+    "cardType": "MISSION",
+    "targetType": "SELF",
+    "title": "자기소개 타임",
+    "description": "자신을 3가지 키워드로 소개하세요. 흥미롭지 않으면 1샷!",
+    "severity": "MILD",
+    "penaltyScale": 1.0,
+    "imageUrl": "C:/Users/YJP/.gemini/antigravity/brain/d137f2b1-bbe7-4f15-bf6b-353f21434ae9/mission_challenge_card_1767010140824.png"
+  },
+  {
+    "cardId": "mild_penalty_001",
+    "cardPackId": "default",
+    "cardType": "PENALTY",
+    "targetType": "SELF",
+    "title": "가벼운 원샷",
+    "description": "기분 좋게 한 잔 비워주세요!",
+    "severity": "MILD",
+    "penaltyScale": 1.0,
+    "imageUrl": "C:/Users/YJP/.gemini/antigravity/brain/d137f2b1-bbe7-4f15-bf6b-353f21434ae9/penalty_one_shot_card_1767007563394.png"
+  },
+  {
+    "cardId": "mild_safe_001",
+    "cardPackId": "default",
+    "cardType": "SAFE",
+    "targetType": "SELF",
+    "title": "휴식권",
+    "description": "이번 턴엔 보디가드가 되어주세요. 마시지 않아도 됩니다.",
+    "severity": "MILD",
+    "penaltyScale": 0.0,
+    "imageUrl": "C:/Users/YJP/.gemini/antigravity/brain/d137f2b1-bbe7-4f15-bf6b-353f21434ae9/safe_rest_card_1767007593368.png"
+  }
+]
